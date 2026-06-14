@@ -118,6 +118,18 @@ confidence gate.
 
 ### C. Examples
 
+- **Overrode AI architecture** — the AI's initial proposal was a pure LLM service: every
+  claim routed to the model, no rule layer. I pushed back and introduced the rule engine
+  as the first layer. Two reasons: (1) auditability — a lapsed policy denial must be
+  traceable to a named rule, not "the model said so." Regulators and opposing counsel will
+  ask why a claim was denied; an immutable `rule_trace` like `["hard_gate:lapsed_policy"]`
+  is a defensible answer, an LLM reasoning string is not. (2) determinism — hard gates
+  need to fire every single time with no variance. The rule engine added `decided_by`,
+  `rule_trace`, and `decided_at` to every output, making the full audit trail a first-class
+  contract rather than an afterthought. Impact: ~80% of claims now have zero-latency,
+  zero-cost, fully traceable decisions; the LLM handles only the ambiguous tail where
+  its reasoning ability actually earns its cost.
+
 - **Kept AI output** — task: generate the `_DECISION_TOOL` schema for `AnthropicProvider`,
   including per-decision description strings. Used the output directly. The descriptions
   ("AUTO_DENY: clear policy exclusion only — not for ambiguity", "ESCALATE_COMPLEX: high

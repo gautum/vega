@@ -14,7 +14,7 @@ cp .env.example .env
 # Edit .env — set LLM_PROVIDER=mock (default) or LLM_PROVIDER=anthropic + ANTHROPIC_API_KEY
 
 # 3. Run the service
-uvicorn app.main:app --reload
+python3 -m uvicorn app.main:app --reload
 ```
 
 Service runs at http://localhost:8000. Docs at http://localhost:8000/docs.
@@ -49,7 +49,7 @@ for claim in claims:
 ## Use Anthropic provider
 
 ```bash
-LLM_PROVIDER=anthropic ANTHROPIC_API_KEY=sk-... uvicorn app.main:app
+LLM_PROVIDER=anthropic ANTHROPIC_API_KEY=sk-... python3 -m uvicorn app.main:app
 ```
 
 ## What I tested first and why

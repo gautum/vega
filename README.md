@@ -154,6 +154,15 @@ confidence gate.
 
 ## What's next
 
+- **Deeper citations / decision sourcing:** today `rule_trace` names which rule fired and
+  `reasoning` captures LLM rationale, but neither links back to the specific policy clause,
+  artifact, or regulatory basis that justified the decision. The right extension is
+  `policy_clause_refs: list[str]` and `source_artifact_ids: list[str]` fields on
+  `NormalizedClaim` — populated by the upstream enrichment layer — which the decisioning
+  service would pass through onto `DecisionOutput` unchanged. This keeps the service
+  stateless (it never fetches artifacts) while giving adjusters, auditors, and opposing
+  counsel a complete evidence chain: rule fired → policy clause cited → artifact sourced.
+
 - **Persistent idempotency cache:** replace in-memory OrderedDict with Redis/Postgres for
   multi-instance deployments
 - **Human feedback endpoint:** `POST /claims/{id}/override` — capture adjuster decisions
